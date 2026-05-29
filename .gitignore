@@ -1,0 +1,24 @@
+# 환경 변수 (API 키)
+.env
+
+# 가상환경
+venv/
+
+# 벡터 DB (로컬 생성 데이터)
+chroma_db/
+
+# 논문 PDF 원본
+data/
+
+# Python 캐시
+__pycache__/
+*.pyc
+*.pyo
+
+# 임시 파일
+peek.py
+*.egg-info/
+.eggs/
+
+# HuggingFace 캐시
+.cache/
