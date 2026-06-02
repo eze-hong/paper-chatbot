@@ -22,3 +22,6 @@ peek.py
 
 # HuggingFace 캐시
 .cache/
+
+# Claude Code 설정
+.claude/
