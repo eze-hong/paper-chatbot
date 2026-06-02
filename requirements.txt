@@ -1,0 +1,26 @@
+# PDF 파싱
+pymupdf==1.27.2.3
+
+# 텍스트 분할
+langchain-text-splitters==1.1.2
+
+# 임베딩
+langchain-huggingface==1.2.2
+sentence-transformers==5.5.1
+# CPU 전용 설치: pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch==2.12.0
+
+# LLM 연동
+langchain-google-genai==4.2.4
+langchain-core==1.4.0
+
+# 벡터 DB
+chromadb==1.5.9
+
+# 환경 변수
+python-dotenv==1.2.2
+
+# 평가 (선택)
+ragas==0.4.3
+datasets==4.8.5
+pandas==3.0.3

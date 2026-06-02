@@ -11,6 +11,9 @@ from datasets import Dataset
 
 from config import LLM_MODEL, TOP_K, CHROMA_DIR
 from embeddings import get_embedding_function
+from ragas.metrics import faithfulness, answer_relevancy
+
+answer_relevancy.strictness = 1
 
 CHUNK_SIZES = [300, 500, 700]
 
@@ -43,13 +46,16 @@ def collect_rows(chunk_size, client, embed_fn, llm) -> list[dict]:
         )
         chunks = results["documents"][0]
         context = "\n\n".join(chunks)
-        answer = llm.invoke(PROMPT_TEMPLATE.format(context=context, question=question)).content
+        #answer = llm.invoke(PROMPT_TEMPLATE.format(context=context, question=question)).content
+        raw = llm.invoke(PROMPT_TEMPLATE.format(context=context, question=question))
+        answer = raw.content[0]['text'] if isinstance(raw.content, list) else raw.content
+        
         rows.append({
             "question": question,
             "answer": answer,
             "contexts": chunks,
         })
-        time.sleep(4)
+        time.sleep(5)
 
     return rows
 
@@ -57,7 +63,7 @@ def collect_rows(chunk_size, client, embed_fn, llm) -> list[dict]:
 if __name__ == "__main__":
     load_dotenv()
     embed_fn = get_embedding_function()
-    llm = ChatGoogleGenerativeAI(model=LLM_MODEL)
+    llm = ChatGoogleGenerativeAI(model=LLM_MODEL, n=1)
     client = chromadb.PersistentClient(path=CHROMA_DIR)
     ragas_llm = LangchainLLMWrapper(llm)
     ragas_embeddings = LangchainEmbeddingsWrapper(embed_fn)
